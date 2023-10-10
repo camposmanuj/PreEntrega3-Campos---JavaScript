@@ -9,6 +9,8 @@ fetch('productos.json')
     const cartTotal = document.querySelector('.cart-total');
     const checkoutButton = document.querySelector('.checkout');
     const clearCartButton = document.querySelector('.clear-cart');
+    const messageContainer = document.getElementById('message-container');
+
 
     // Inicializar el carrito como un array vacío //
     let cart = [];
@@ -66,12 +68,12 @@ fetch('productos.json')
     // Agregar evento click al boton finalizar compra //
     checkoutButton.addEventListener('click', () => {
       if (cart.length > 0) {
-        alert('Compra finalizada. Gracias por su compra!');
+        showMessage('Compra finalizada. Gracias por su compra.');
         cart.length = 0;
         updateCartDisplay();
         updateLocalStorage();
       } else {
-        alert('El carrito está vacío. Agregue productos antes de finalizar la compra.');
+        showMessage('El carrito está vacío. Agregue productos antes de finalizar la compra.', true);
       }
     });
     // Agregar un controlador de eventos al botón vaciar carrito //
@@ -80,4 +82,11 @@ fetch('productos.json')
       updateCartDisplay();
       updateLocalStorage();
     });
+
+    function showMessage(message, isError = false) {
+      const messageDiv = document.createElement('div');
+      messageDiv.textContent = message;
+      messageDiv.classList.add(isError ? 'error-message' : 'success-message');
+      messageContainer.appendChild(messageDiv);
+    }
   });
